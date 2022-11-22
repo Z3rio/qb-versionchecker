@@ -80,28 +80,32 @@ namespace VersionChecker.Commands
                         
                         foreach (Resource resource in resources)
                         {
-                            string statusLabel = "";
 
-                            if (resource.versions.current != null && resource.versions.local != null)
+                            if (resource != null && resource.name != null)
                             {
-                                if (resource.versions.current == resource.versions.local)
+                                string statusLabel = "";
+
+                                if (resource.versions != null && resource.versions.current != null && resource.versions.local != null)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Green;
-                                    statusLabel = "The script is up to date";
+                                    if (resource.versions.current == resource.versions.local)
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        statusLabel = "The script is up to date";
+                                    }
+                                    else
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Red;
+                                        statusLabel = "The script is outdated";
+                                    }
                                 }
                                 else
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Red;
-                                    statusLabel = "The script is outdated";
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    statusLabel = "Couldn't find a valid version";
                                 }
-                            }
-                            else
-                            {
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                statusLabel = "Couldn't find a valid version";
-                            }
 
-                            Console.WriteLine($"{resource.name}, {statusLabel}");
+                                Console.WriteLine($"{resource.name}, {statusLabel}");
+                            }
                         }
 
                         Console.ResetColor();
