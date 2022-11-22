@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Github Projects\\qb-versionchecker\\VersionChecker\\VersionChecker.csproj": {}
+    "C:\\Github Projects\\qb-versionchecker\\VersionChecker.csproj": {}
   },
   "projects": {
-    "C:\\Github Projects\\qb-versionchecker\\VersionChecker\\VersionChecker.csproj": {
+    "C:\\Github Projects\\qb-versionchecker\\VersionChecker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Github Projects\\qb-versionchecker\\VersionChecker\\VersionChecker.csproj",
+        "projectUniqueName": "C:\\Github Projects\\qb-versionchecker\\VersionChecker.csproj",
         "projectName": "VersionChecker",
-        "projectPath": "C:\\Github Projects\\qb-versionchecker\\VersionChecker\\VersionChecker.csproj",
+        "projectPath": "C:\\Github Projects\\qb-versionchecker\\VersionChecker.csproj",
         "packagesPath": "C:\\Users\\Zerio\\.nuget\\packages\\",
-        "outputPath": "C:\\Github Projects\\qb-versionchecker\\VersionChecker\\obj\\",
+        "outputPath": "C:\\Github Projects\\qb-versionchecker\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -43,6 +43,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

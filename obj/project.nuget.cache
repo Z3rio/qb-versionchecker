@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "DN7yVNzwmK87+4wErXcXaw+ggT5ShNh38Vsuy+NfQTpT/+05Jlczla9n/87amqyV3dJZ1Uvl3CXBZi5u+4/W1g==",
+  "dgSpecHash": "u/3P+/WEETjRVrRVPIlVtGEOBFDeCcA+1pXTRyf1VMAWNkqYEwLcRQdhR3K6zzKkh8ZjrdsezJrLEdtbnDMqbg==",
   "success": true,
-  "projectFilePath": "C:\\Github Projects\\qb-versionchecker\\VersionChecker\\VersionChecker.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Github Projects\\qb-versionchecker\\VersionChecker.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Zerio\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
