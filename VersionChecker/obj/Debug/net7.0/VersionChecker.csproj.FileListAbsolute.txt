@@ -1,0 +1,15 @@
+C:\Github Projects\qb-versionchecker\VersionChecker\bin\Debug\net7.0\VersionChecker.exe
+C:\Github Projects\qb-versionchecker\VersionChecker\bin\Debug\net7.0\VersionChecker.deps.json
+C:\Github Projects\qb-versionchecker\VersionChecker\bin\Debug\net7.0\VersionChecker.runtimeconfig.json
+C:\Github Projects\qb-versionchecker\VersionChecker\bin\Debug\net7.0\VersionChecker.dll
+C:\Github Projects\qb-versionchecker\VersionChecker\bin\Debug\net7.0\VersionChecker.pdb
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\VersionChecker.csproj.AssemblyReference.cache
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\VersionChecker.GeneratedMSBuildEditorConfig.editorconfig
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\VersionChecker.AssemblyInfoInputs.cache
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\VersionChecker.AssemblyInfo.cs
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\VersionChecker.csproj.CoreCompileInputs.cache
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\VersionChecker.dll
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\refint\VersionChecker.dll
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\VersionChecker.pdb
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\VersionChecker.genruntimeconfig.cache
+C:\Github Projects\qb-versionchecker\VersionChecker\obj\Debug\net7.0\ref\VersionChecker.dll
