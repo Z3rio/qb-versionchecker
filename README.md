@@ -1,5 +1,6 @@
 # qb-versionchecker
-A version checker and script updater made for QBCore
+This is a program (exe file) written in c# by me, Zerio#0880. 
+Which allows you to check your qb-core server for outdated scripts and also update them if you would like to.
 
 ## Usage
 
