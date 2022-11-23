@@ -15,108 +15,117 @@ namespace VersionChecker.Commands
             {
                 if (Directory.Exists(path))
                 {
-                    DirectoryInfo resourceFolder = new DirectoryInfo(path);
+                    DirectoryInfo? resourceFolder = new DirectoryInfo(path);
 
-                    if (resourceFolder.Name != "resources")
+                    if (resourceFolder != null)
                     {
-                        path += "\\resources";
-                    }
-
-                    if (Directory.Exists(path))
-                    {
-
-                        List<string> dirs = new List<string> { };
-
-                        try
+                        if (resourceFolder.Name != "resources")
                         {
-                            dirs = Directory.GetDirectories(path, "*qb-*", System.IO.SearchOption.AllDirectories).ToList();
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            dirs = new List<string> { };
+                            path += "\\resources";
+
+                            resourceFolder = new DirectoryInfo(path);
                         }
 
-                        List<Resource> resources = new List<Resource> { };
-
-                        foreach (var dir in dirs)
+                        if (Directory.Exists(path))
                         {
-                            DirectoryInfo resource = new DirectoryInfo(dir);
 
-                            bool valid = await IsValid($"https://github.com/qbcore-framework/{resource.Name}");
+                            List<string> dirs = new List<string> { };
 
-                            Console.WriteLine($"Fetching data for \"{resource.Name}\"");
-
-                            if (valid == true)
+                            try
                             {
-                                HttpResponseMessage res = await client.GetAsync($"https://raw.githubusercontent.com/qbcore-framework/{resource.Name}/main/fxmanifest.lua");
+                                dirs = Directory.GetDirectories(path, "*qb-*", System.IO.SearchOption.AllDirectories).ToList();
+                            }
+                            catch (UnauthorizedAccessException)
+                            {
+                                dirs = new List<string> { };
+                            }
 
-                                if (res.StatusCode == System.Net.HttpStatusCode.OK)
+                            List<Resource> resources = new List<Resource> { };
+
+                            foreach (var dir in dirs)
+                            {
+                                DirectoryInfo resource = new DirectoryInfo(dir);
+
+                                bool valid = await IsValid($"https://github.com/qbcore-framework/{resource.Name}");
+
+                                Console.WriteLine($"Fetching data for \"{resource.Name}\"");
+
+                                if (valid == true)
                                 {
-                                    string? localVersionNumber = null;
+                                    HttpResponseMessage res = await client.GetAsync($"https://raw.githubusercontent.com/qbcore-framework/{resource.Name}/main/fxmanifest.lua");
 
-                                    string currentFxmanifest = await res.Content.ReadAsStringAsync();
-                                    string? currentVersionNumber = GetVersionNumber(currentFxmanifest);
-
-                                    string? localFxmanifest = System.IO.File.ReadAllText($"{resource.FullName}\\fxmanifest.lua");
-
-                                    if (localFxmanifest != null)
+                                    if (res.StatusCode == System.Net.HttpStatusCode.OK)
                                     {
-                                        localVersionNumber = GetVersionNumber(localFxmanifest);
-                                    }
+                                        string? localVersionNumber = null;
 
-                                    resources.Add(new Resource
-                                    {
-                                        name = resource.Name,
+                                        string currentFxmanifest = await res.Content.ReadAsStringAsync();
+                                        string? currentVersionNumber = GetVersionNumber(currentFxmanifest);
 
-                                        versions = new Versions
+                                        string? localFxmanifest = System.IO.File.ReadAllText($"{resource.FullName}\\fxmanifest.lua");
+
+                                        if (localFxmanifest != null)
                                         {
-                                            current = currentVersionNumber,
-                                            local = localVersionNumber
+                                            localVersionNumber = GetVersionNumber(localFxmanifest);
                                         }
-                                    });
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine($"\"{resource.Name}\" is not an official QBCore resource");
-                            }
-                        }
 
-                        Console.Clear();
+                                        resources.Add(new Resource
+                                        {
+                                            name = resource.Name,
 
-                        resources = SortResources(resources);
-
-                        foreach (Resource resource in resources)
-                        {
-
-                            if (resource != null && resource.name != null)
-                            {
-                                string statusLabel = "";
-
-                                if (resource.versions != null && resource.versions.current != null && resource.versions.local != null)
-                                {
-                                    if (resource.versions.current == resource.versions.local)
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.Green;
-                                        statusLabel = "The script is up to date";
-                                    }
-                                    else
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        statusLabel = "The script is outdated";
+                                            versions = new Versions
+                                            {
+                                                current = currentVersionNumber,
+                                                local = localVersionNumber
+                                            }
+                                        });
                                     }
                                 }
                                 else
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    statusLabel = "Couldn't find a valid version";
+                                    Console.WriteLine($"\"{resource.Name}\" is not an official QBCore resource");
                                 }
-
-                                Console.WriteLine($"{resource.name}, {statusLabel}");
                             }
-                        }
 
-                        Console.ResetColor();
+                            Console.Clear();
+
+                            resources = SortResources(resources);
+
+                            foreach (Resource resource in resources)
+                            {
+
+                                if (resource != null && resource.name != null)
+                                {
+                                    string statusLabel = "";
+
+                                    if (resource.versions != null && resource.versions.current != null && resource.versions.local != null)
+                                    {
+                                        if (resource.versions.current == resource.versions.local)
+                                        {
+                                            Console.ForegroundColor = ConsoleColor.Green;
+                                            statusLabel = "The script is up to date";
+                                        }
+                                        else
+                                        {
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            statusLabel = "The script is outdated";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.ForegroundColor = ConsoleColor.Yellow;
+                                        statusLabel = "Couldn't find a valid version";
+                                    }
+
+                                    Console.WriteLine($"{resource.name}, {statusLabel}");
+                                }
+                            }
+
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.WriteLine("The server path is invalid");
+                        }
                     }
                     else
                     {
