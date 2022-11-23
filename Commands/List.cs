@@ -8,20 +8,28 @@ namespace VersionChecker.Commands
     {
         public static async void Run()
         {
-            Console.WriteLine("Input your server path (The folder with server.cfg, resources folder etc)");
+            Console.WriteLine("Input your server path (Main server folder or resources folder)");
             string? path = Console.ReadLine();
 
             if (path != null)
             {
                 if (Directory.Exists(path))
                 {
-                    if (Directory.Exists(path + "\\resources"))
+                    DirectoryInfo resourceFolder = new DirectoryInfo(path);
+
+                    if (resourceFolder.Name != "resources")
                     {
+                        path += "\\resources";
+                    }
+
+                    if (Directory.Exists(path))
+                    {
+
                         List<string> dirs = new List<string> { };
 
                         try
                         {
-                            dirs =  Directory.GetDirectories(path + "\\resources", "*qb-*", System.IO.SearchOption.AllDirectories).ToList();
+                            dirs = Directory.GetDirectories(path, "*qb-*", System.IO.SearchOption.AllDirectories).ToList();
                         }
                         catch (UnauthorizedAccessException)
                         {
@@ -77,7 +85,7 @@ namespace VersionChecker.Commands
                         Console.Clear();
 
                         resources = SortResources(resources);
-                        
+
                         foreach (Resource resource in resources)
                         {
 
@@ -112,7 +120,7 @@ namespace VersionChecker.Commands
                     }
                     else
                     {
-                        Console.WriteLine("The server path doesnt contain a folder called \"resources\"");
+                        Console.WriteLine("The server path is invalid");
                     }
                 }
                 else
