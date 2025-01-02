@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "bin": {
-    "qbvc": "dist/index.js"
+    "qbvc": "dist/index.cjs"
   },
   "scripts": {
     "build": "node build.cjs",
