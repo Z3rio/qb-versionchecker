@@ -12,20 +12,27 @@ function handleResource () {
     NAME="$(basename $1)"
     printf "Handling: ${NAME}\n"
 
-    cd "$1"
-    if [[ ! -d ".git" ]]; then
-        printf "Initializing Git\n"
-        git init
-        git remote add origin git@github.com:qbcore-framework/${NAME}.git
-    else
-        printf "Git already initialized\n"
-    fi
+    responseCode=$(curl -s -o /dev/null -w "%{http_code}" "https://api.github.com/repos/qbcore-framework/${NAME}")
 
-    git fetch
-    git pull
+    if [[ ! "$response" -eq 404 ]]; then
+        cd "$1"
+        if [[ ! -d ".git" ]]; then
+            printf "Initializing Git\n"
+            git clone --no-checkout https://github.com/qbcore-framework/${NAME} tempGit
+            mv tempGit/.git ./.git
+            rm -rf tempGit
+        else
+            printf "Git already initialized\n"
+        fi
+
+        git fetch
+        git pull
+    else
+        echo "Couldnt find qbcore resource named ${NAME}"
+    fi
 
     printf "\n\n"
 }
 export -f handleResource
 
-find $resourceFolder -type d -name "*qb-*" -exec bash -c "handleResource \"{}\"" \;
+find "$resourceFolder" -type d -name "*qb-*" -exec bash -c 'handleResource "$0"' {} \;
