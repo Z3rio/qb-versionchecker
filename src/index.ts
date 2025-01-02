@@ -75,24 +75,11 @@ async function main() {
 
         if (response.status === 200) {
           validatedDirectories.push(directory);
-        } else if (response.status === 403) {
-          // rate limit reached
-          console.warn(
-            picocolors.red("Github rate limit reached, please try again later")
-          );
-          process.exit(1);
         }
       } catch (err) {
-        if (
-          typeof err === "object" &&
-          !Array.isArray(err) &&
-          err !== null &&
-          "status" in err &&
-          err.status === 403
-        ) {
-          // rate limit reached
+        if (axios.isAxiosError(err) && err.response?.status === 403) {
           console.warn(
-            picocolors.red("Github rate limit reached, please try again later")
+            picocolors.red("GitHub rate limit reached, please try again later")
           );
           process.exit(1);
         }
@@ -150,6 +137,37 @@ async function main() {
           )
         );
       }
+
+      const previousCommit = execSync("git rev-parse HEAD", {
+        cwd: directoryPath
+      }).toString();
+
+      execSync("git stash", {
+        cwd: directoryPath,
+        stdio: "inherit"
+      });
+      execSync("git fetch --all", {
+        cwd: directoryPath,
+        stdio: "inherit"
+      });
+      execSync("git pull origin main", {
+        cwd: directoryPath,
+        stdio: "inherit"
+      });
+
+      const updatedCommit = execSync("git rev-parse HEAD", {
+        cwd: directoryPath
+      }).toString();
+
+      if (previousCommit !== updatedCommit) {
+        console.info(
+          picocolors.greenBright(
+            `Repository ${picocolors.bold(directory.name)} updated`
+          )
+        );
+      }
+
+      console.info("\n");
     } catch (err) {
       console.warn(`Couldnt handle repository ${directory.name}`);
       void err;
