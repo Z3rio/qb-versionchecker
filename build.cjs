@@ -19,7 +19,7 @@ async function main() {
         entryPoints: ['src/index.ts'],
         bundle: true,
         platform: "node",
-        minify: true,
+        // minify: true,
         outfile: 'dist/index.cjs',
     })
 }
