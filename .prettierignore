@@ -1,0 +1,7 @@
+node_modules
+dist
+pnpm-lock.yaml
+.git
+.husky
+.gitattributes
+build.cjs
