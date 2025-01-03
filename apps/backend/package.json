@@ -1,0 +1,20 @@
+{
+  "name": "@qb-versionchecker/backend",
+  "type": "module",
+  "scripts": {
+    "build": "node build.cjs",
+    "format:check": "eslint && prettier -c .",
+    "format:write": "eslint --fix && prettier -w .",
+    "lint:check": "pnpm format:check",
+    "lint:write": "pnpm format:write"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2"
+  }
+}
