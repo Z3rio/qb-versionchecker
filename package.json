@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "node build.js",
+    "dev": "node dev.js",
     "format:check": "node format.js --check",
     "format:write": "node format.js --write",
     "prepare": "husky"

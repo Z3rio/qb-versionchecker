@@ -15,7 +15,6 @@ function failure() {
     process.exit(1);
 }
 
-
 switch (argv[0]) {
     case "--check":
         commands = [

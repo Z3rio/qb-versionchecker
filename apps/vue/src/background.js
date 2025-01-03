@@ -1,9 +1,13 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+import path from 'path'
+import { readdirSync } from 'fs'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
+const preloadPath = path.join(__dirname, 'bundled/preload.js')
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -16,10 +20,8 @@ async function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      preload: preloadPath,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
     }
   })
@@ -79,3 +81,30 @@ if (isDevelopment) {
     })
   }
 }
+
+function getDirectories(currentPath, list = []) {
+  const directories = readdirSync(currentPath, { withFileTypes: true });
+
+  for (const directory of directories) {
+    if (directory.isDirectory()) {
+      if (directory.name.startsWith("qb-")) {
+        list.push(directory);
+      } else {
+        list = getDirectories(path.join(currentPath, directory.name), list);
+      }
+    }
+  }
+
+  return list;
+}
+
+ipcMain.handle('get-directories', async (event, { resourcePath }) => {
+  void event;
+
+  try {
+    const directories = getDirectories(resourcePath)
+    return { success: true, data: directories };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
